@@ -27,13 +27,6 @@ export default function RootLayout({
       <body className="min-h-screen">
         <ThemeProvider>
           <AuthBootstrap />
-          <div
-            className="pointer-events-none fixed inset-0 z-0"
-            style={{
-              backgroundImage: `radial-gradient(125% 125% at 50% 90%, var(--color-background) 40%, var(--color-primary) 100%)`,
-              backgroundSize: '100% 100%',
-            }}
-          />
           <div className="relative z-10">{children}</div>
         </ThemeProvider>
       </body>

@@ -6,28 +6,17 @@ import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/theme-toggle'
 import React from 'react'
 import { cn } from '@/lib/utils'
-import { useScroll } from 'motion/react'
 import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/hooks/use-auth-store'
 
 export const HeroHeader = () => {
     const [menuState, setMenuState] = React.useState(false)
-    const [scrolled, setScrolled] = React.useState(false)
     const [isSigningOut, setIsSigningOut] = React.useState(false)
     const router = useRouter()
     const loading = useAuthStore((state) => state.loading)
     const user = useAuthStore((state) => state.user)
     const signOut = useAuthStore((state) => state.signOut)
-
-    const { scrollYProgress } = useScroll()
     const displayName = user?.user_metadata?.user_name || user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Signed in'
-
-    React.useEffect(() => {
-        const unsubscribe = scrollYProgress.on('change', (latest) => {
-            setScrolled(latest > 0.05)
-        })
-        return () => unsubscribe()
-    }, [scrollYProgress])
 
     async function handleSignOut() {
         setIsSigningOut(true)
@@ -37,10 +26,12 @@ export const HeroHeader = () => {
         setIsSigningOut(false)
     }
 
+    const navLinkClassName = 'text-sm text-muted-foreground transition-colors hover:text-foreground'
+
     return (
         <header>
             <nav
-                className={cn('fixed z-20 w-full border-b border-white/20 bg-transparent transition-colors duration-150', scrolled && 'border-border bg-background/85 backdrop-blur-3xl')}>
+                className="fixed left-0 top-0 z-20 w-full border-b border-border/50 bg-background/85 backdrop-blur-3xl">
                 <div className="mx-auto max-w-5xl px-6 transition-all duration-300">
                     <div className="relative flex items-center justify-between py-3 lg:py-4">
                         <Link
@@ -50,6 +41,12 @@ export const HeroHeader = () => {
                             <Logo />
                         </Link>
 
+                        <div className="absolute left-1/2 hidden -translate-x-1/2 items-center sm:flex">
+                            <Link href="/contact" className={navLinkClassName}>
+                                Contact
+                            </Link>
+                        </div>
+
                         <div className="hidden items-center gap-3 sm:flex">
                             <ThemeToggle />
                             {!loading && user ? (
@@ -57,9 +54,6 @@ export const HeroHeader = () => {
                                     <div className="hidden items-center rounded-full border border-dashed bg-background/80 px-3 py-1 text-xs text-muted-foreground lg:flex">
                                         <span className="max-w-32 truncate">{displayName}</span>
                                     </div>
-                                    <Button asChild variant="ghost" size="lg">
-                                        <Link href="/dashboard">Dashboard</Link>
-                                    </Button>
                                     <Button type="button" variant="outline" size="lg" onClick={handleSignOut} disabled={isSigningOut}>
                                         <span>{isSigningOut ? 'Signing out...' : 'Sign Out'}</span>
                                     </Button>
@@ -94,6 +88,9 @@ export const HeroHeader = () => {
                                                 <p className="truncate text-xs">{user.email}</p>
                                             </div>
                                             <Button asChild size="sm" variant="ghost" className="w-full">
+                                                <Link href="/contact" onClick={() => setMenuState(false)}>Contact</Link>
+                                            </Button>
+                                            <Button asChild size="sm" variant="ghost" className="w-full">
                                                 <Link href="/dashboard" onClick={() => setMenuState(false)}>Dashboard</Link>
                                             </Button>
                                             <Button type="button" size="sm" variant="outline" className="w-full" onClick={handleSignOut} disabled={isSigningOut}>
@@ -102,6 +99,9 @@ export const HeroHeader = () => {
                                         </>
                                     ) : (
                                         <>
+                                            <Button asChild size="sm" variant="ghost" className="w-full">
+                                                <Link href="/contact" onClick={() => setMenuState(false)}>Contact</Link>
+                                            </Button>
                                             <Button asChild size="sm" variant="ghost" className="w-full">
                                                 <Link href="/login" onClick={() => setMenuState(false)}>Log In</Link>
                                             </Button>

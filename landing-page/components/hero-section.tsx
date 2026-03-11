@@ -35,10 +35,10 @@ export default function HeroSection() {
         <>
             <HeroHeader />
             <main className="relative overflow-hidden">
-                <section>
-                    <div className="relative pt-24">
+                <section className="min-h-screen">
+                    <div className="relative flex min-h-screen flex-col justify-center pt-24 pb-10 md:pb-12">
                         <div className="mx-auto max-w-5xl px-6">
-                            <div className="sm:mx-auto lg:mx-auto lg:mt-0 text-center">
+                            <div className="text-center sm:mx-auto lg:mx-auto lg:mt-0">
                                 <AnimatedGroup
                                     variants={{
                                         container: {
@@ -51,7 +51,7 @@ export default function HeroSection() {
                                         },
                                         ...transitionVariants,
                                     }}
-                                    className="mb-4 flex items-center justify-center">
+                                    className="mb-3 flex items-center justify-center">
                                     <span className="inline-flex items-center gap-2 rounded-full border border-dashed bg-muted/50 px-3 py-1 text-sm text-muted-foreground">
                                         <WifiSlashIcon weight="bold" className="size-4" />
                                         Works fully offline. Still useful when the signal drops.
@@ -62,10 +62,10 @@ export default function HeroSection() {
                                     preset="fade-in-blur"
                                     speedSegment={0.3}
                                     as="h1"
-                                    className="mt-8 mx-auto max-w-3xl text-balance text-5xl font-medium md:text-6xl lg:mt-16">
+                                    className="mt-6 mx-auto max-w-3xl text-balance text-5xl font-medium md:text-6xl lg:mt-10">
                                     Field reporting that still works when the internet doesn&apos;t
                                 </TextEffect>
-                                <p className="mt-8 mx-auto max-w-2xl text-pretty text-lg text-muted-foreground">
+                                <p className="mt-6 mx-auto max-w-2xl text-pretty text-lg text-muted-foreground">
                                     <FieldMindText className="text-lg" /> helps crews record incidents by voice, get a quick on-device triage, and sync everything once they are back online. It is built for places where coverage comes and goes.
                                 </p>
 
@@ -81,7 +81,7 @@ export default function HeroSection() {
                                         },
                                         ...transitionVariants,
                                     }}
-                                    className="mt-12 flex items-center justify-center gap-2">
+                                    className="mt-10 flex items-center justify-center gap-2">
                                     <div
                                         key={1}
                                         className="bg-foreground/10 rounded-[calc(var(--radius-xl)+0.125rem)] border border-dashed p-0.5">
@@ -120,7 +120,7 @@ export default function HeroSection() {
                                 },
                                 ...transitionVariants,
                             }}>
-                            <div className="relative mt-12 px-2 sm:mt-16 md:mt-20">
+                            <div className="relative mt-10 px-2 sm:mt-12 md:mt-14">
                                 <div className="mx-auto max-w-5xl">
                                     <div className="grid gap-4 sm:grid-cols-3">
                                         <HeroStat
@@ -142,9 +142,12 @@ export default function HeroSection() {
                                 </div>
                             </div>
                         </AnimatedGroup>
+
+                        <div className="mt-10 md:mt-12">
+                            <TechnologyCloud />
+                        </div>
                     </div>
                 </section>
-                <TechnologyCloud />
             </main>
         </>
     )

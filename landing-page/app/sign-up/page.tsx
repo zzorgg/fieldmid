@@ -1,5 +1,10 @@
-import SignUpForm from '@/components/signup-form';
+import GuestGuard from '@/components/guest-guard'
+import SignUpForm from '@/components/signup-form'
 
 export default function Page() {
-    return <SignUpForm />
+    return (
+        <GuestGuard>
+            <SignUpForm />
+        </GuestGuard>
+    )
 }

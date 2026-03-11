@@ -60,7 +60,7 @@ const technologyLogos = [
 
 export default function TechnologyCloud() {
     return (
-        <section id="tech-stack" className="overflow-hidden bg-transparent py-16 md:py-24">
+        <section id="tech-stack" className="overflow-hidden bg-transparent py-8 md:py-10">
             <div className="group relative mx-auto max-w-5xl px-6">
                 <div className="flex flex-col items-center gap-6 md:flex-row">
                     <div className="md:max-w-52 md:border-r md:border-dashed md:pr-6">

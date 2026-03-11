@@ -8,10 +8,11 @@ import { supabase } from "@/lib/supabase"
 type AuthStore = {
   user: User | null
   loading: boolean
-  isAuthenticating: boolean
+  authenticatingProvider: string | null
   authError: string | null
   initialize: () => () => void
   signInWithGithub: (redirectTo: string) => Promise<void>
+  signInWithGoogle: (redirectTo: string) => Promise<void>
   signOut: () => Promise<void>
   clearAuthError: () => void
 }
@@ -21,7 +22,7 @@ let unsubscribeAuthListener: (() => void) | null = null
 export const useAuthStore = create<AuthStore>((set) => ({
   user: null,
   loading: true,
-  isAuthenticating: false,
+  authenticatingProvider: null,
   authError: null,
 
   initialize: () => {
@@ -38,7 +39,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
         set({
           authError: error.message,
           loading: false,
-          isAuthenticating: false,
+          authenticatingProvider: null,
         })
       })
 
@@ -48,7 +49,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       set({
         user: session?.user ?? null,
         loading: false,
-        isAuthenticating: false,
+        authenticatingProvider: null,
         authError: null,
       })
     })
@@ -62,7 +63,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   },
 
   signInWithGithub: async (redirectTo: string) => {
-    set({ authError: null, isAuthenticating: true })
+    set({ authError: null, authenticatingProvider: "github" })
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "github",
@@ -72,7 +73,22 @@ export const useAuthStore = create<AuthStore>((set) => ({
     })
 
     if (error) {
-      set({ authError: error.message, isAuthenticating: false })
+      set({ authError: error.message, authenticatingProvider: null })
+    }
+  },
+
+  signInWithGoogle: async (redirectTo: string) => {
+    set({ authError: null, authenticatingProvider: "google" })
+
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo,
+      },
+    })
+
+    if (error) {
+      set({ authError: error.message, authenticatingProvider: null })
     }
   },
 
@@ -84,7 +100,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       return
     }
 
-    set({ user: null, authError: null, isAuthenticating: false })
+    set({ user: null, authError: null, authenticatingProvider: null })
   },
 
   clearAuthError: () => set({ authError: null }),

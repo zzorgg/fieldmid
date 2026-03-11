@@ -7,6 +7,8 @@ import { useAuthStore } from '@/hooks/use-auth-store'
 export default function DashboardPage() {
     const user = useAuthStore((state) => state.user)
     const displayName = user?.user_metadata?.user_name || user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Operator'
+    const rawProvider = user?.app_metadata?.provider as string | undefined
+    const providerLabel = rawProvider === 'google' ? 'Google via Supabase' : rawProvider === 'github' ? 'GitHub via Supabase' : rawProvider ?? 'Unknown'
 
     return (
         <AuthGuard>
@@ -28,7 +30,7 @@ export default function DashboardPage() {
                         </div>
                         <div className="bg-card rounded-2xl border border-dashed p-5">
                             <p className="text-sm text-muted-foreground">Auth provider</p>
-                            <p className="mt-2 font-medium">GitHub via Supabase</p>
+                            <p className="mt-2 font-medium">{providerLabel}</p>
                         </div>
                         <div className="bg-card rounded-2xl border border-dashed p-5">
                             <p className="text-sm text-muted-foreground">Session state</p>
