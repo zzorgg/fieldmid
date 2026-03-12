@@ -1,0 +1,15 @@
+{
+  "servers": {
+    "mastra": {
+      "type": "stdio",
+      "command": "env",
+      "args": [
+        "PATH=/home/f8/.nvm/versions/node/v24.14.0/bin:/usr/bin:/bin",
+        "/home/f8/.nvm/versions/node/v24.14.0/bin/node",
+        "/home/f8/.nvm/versions/node/v24.14.0/lib/node_modules/npm/bin/npx-cli.js",
+        "-y",
+        "@mastra/mcp-docs-server@latest"
+      ]
+    }
+  }
+}
